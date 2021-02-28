@@ -1,0 +1,268 @@
+
+
+
+drop table if exists BAHAN;
+
+drop table if exists DETAIL_BAHAN;
+
+drop table if exists DETAIL_MENU_WARUNG;
+
+drop table if exists DETAIL_PAKET;
+
+drop table if exists DETAIL_PRODUK_JADI;
+
+drop table if exists JUMLAH_MENU_WARUNG;
+
+drop table if exists JUMLAH_PRODUK_JADI;
+
+drop table if exists KASIR;
+
+drop table if exists MENU_WARUNG;
+
+drop table if exists PAKET;
+
+drop table if exists PEDAGANG;
+
+drop table if exists PELANGGAN;
+
+drop table if exists PEMASOK;
+
+drop table if exists PRODUK_JADI;
+
+drop table if exists TRANSAKSI;
+
+/*==============================================================*/
+/* Table: BAHAN                                                 */
+/*==============================================================*/
+create table BAHAN
+(
+   ID_BAHAN             char(5) not null,
+   ID_PEDAGANG          char(5) not null,
+   NAMA_BAHAN           varchar(15) not null,
+   STOK_BAHAN           int not null,
+   SATUAN               varchar(6) not null,
+   primary key (ID_BAHAN)
+);
+
+/*==============================================================*/
+/* Table: DETAIL_BAHAN                                          */
+/*==============================================================*/
+create table DETAIL_BAHAN
+(
+   NO_DETAIL_BAHAN      numeric(3,0) not null,
+   ID_MENU              char(5) not null,
+   ID_BAHAN             char(5) not null,
+   JUMLAH_KEBUTUHAN     int not null,
+   SATUAN               varchar(6) not null,
+   primary key (ID_BAHAN, ID_MENU, NO_DETAIL_BAHAN)
+);
+
+/*==============================================================*/
+/* Table: DETAIL_MENU_WARUNG                                    */
+/*==============================================================*/
+create table DETAIL_MENU_WARUNG
+(
+   NO_DETAIL_MENU       numeric(3,0) not null,
+   ID_TRANSAKSI         char(5) not null,
+   ID_MENU              char(5) not null,
+   JUMLAH               int not null,
+   primary key (ID_MENU, ID_TRANSAKSI, NO_DETAIL_MENU)
+);
+
+/*==============================================================*/
+/* Table: DETAIL_PAKET                                          */
+/*==============================================================*/
+create table DETAIL_PAKET
+(
+   NO_DETAIL_PAKET      numeric(3,0) not null,
+   ID_PAKET             char(5) not null,
+   ID_TRANSAKSI         char(5) not null,
+   JUMLAH               int not null,
+   primary key (ID_TRANSAKSI, ID_PAKET, NO_DETAIL_PAKET)
+);
+
+/*==============================================================*/
+/* Table: DETAIL_PRODUK_JADI                                    */
+/*==============================================================*/
+create table DETAIL_PRODUK_JADI
+(
+   NO_DETAIL_PRODUK     numeric(3,0) not null,
+   ID_TRANSAKSI         char(5) not null,
+   ID_PRODUK            char(5) not null,
+   JUMLAH_PEMBELIAN     int not null,
+   primary key (ID_PRODUK, ID_TRANSAKSI, NO_DETAIL_PRODUK)
+);
+
+/*==============================================================*/
+/* Table: JUMLAH_MENU_WARUNG                                    */
+/*==============================================================*/
+create table JUMLAH_MENU_WARUNG
+(
+   NO                   numeric(2,0) not null,
+   ID_PAKET             char(5) not null,
+   ID_MENU              char(5) not null,
+   JUMLAH_MENU          int not null,
+   primary key (ID_PAKET, ID_MENU, NO)
+);
+
+/*==============================================================*/
+/* Table: JUMLAH_PRODUK_JADI                                    */
+/*==============================================================*/
+create table JUMLAH_PRODUK_JADI
+(
+   NOMOR                numeric(2,0) not null,
+   ID_PAKET             char(5) not null,
+   ID_PRODUK            char(5) not null,
+   JUMLAH_PRODUK        int not null,
+   primary key (ID_PAKET, ID_PRODUK, NOMOR)
+);
+
+/*==============================================================*/
+/* Table: KASIR                                                 */
+/*==============================================================*/
+create table KASIR
+(
+   ID_KASIR             char(5) not null,
+   NAMA_KASIR           varchar(15) not null,
+   ALAMAT_KASIR         varchar(20) not null,
+   E_MAIL               varchar(50) not null,
+   primary key (ID_KASIR)
+);
+
+/*==============================================================*/
+/* Table: MENU_WARUNG                                           */
+/*==============================================================*/
+create table MENU_WARUNG
+(
+   ID_MENU              char(5) not null,
+   NAMA_MENU            varchar(15) not null,
+   JENIS                smallint not null,
+   HARGA                bigint not null,
+   primary key (ID_MENU)
+);
+
+/*==============================================================*/
+/* Table: PAKET                                                 */
+/*==============================================================*/
+create table PAKET
+(
+   ID_PAKET             char(5) not null,
+   NAMA_PAKET           varchar(20) not null,
+   HARGA                bigint not null,
+   primary key (ID_PAKET)
+);
+
+/*==============================================================*/
+/* Table: PEDAGANG                                              */
+/*==============================================================*/
+create table PEDAGANG
+(
+   ID_PEDAGANG          char(5) not null,
+   NAMA                 varchar(15) not null,
+   TELEPON              varchar(13) not null,
+   primary key (ID_PEDAGANG)
+);
+
+/*==============================================================*/
+/* Table: PELANGGAN                                             */
+/*==============================================================*/
+create table PELANGGAN
+(
+   ID_PELANGGAN         char(5) not null,
+   NAMA_PELANGGAN       varchar(15) not null,
+   ALAMAT_PELANGGAN     varchar(20) not null,
+   NO_TELEPON           varchar(13) not null,
+   primary key (ID_PELANGGAN)
+);
+
+/*==============================================================*/
+/* Table: PEMASOK                                               */
+/*==============================================================*/
+create table PEMASOK
+(
+   ID_PEMASOK           char(5) not null,
+   NAMA_PEMASOK         varchar(15) not null,
+   ALAMAT_PEMASOK       varchar(20) not null,
+   TELEPON              varchar(13) not null,
+   primary key (ID_PEMASOK)
+);
+
+/*==============================================================*/
+/* Table: PRODUK_JADI                                           */
+/*==============================================================*/
+create table PRODUK_JADI
+(
+   ID_PRODUK            char(5) not null,
+   ID_PEMASOK           char(5) not null,
+   NAMA_PRODUK          varchar(20) not null,
+   STOK                 int not null,
+   HARGA_SATUAN         bigint not null,
+   primary key (ID_PRODUK)
+);
+
+/*==============================================================*/
+/* Table: TRANSAKSI                                             */
+/*==============================================================*/
+create table TRANSAKSI
+(
+   ID_TRANSAKSI         char(5) not null,
+   ID_KASIR             char(5) not null,
+   ID_PELANGGAN         char(5) not null,
+   TANGGAL_TRANSAKSI    date not null,
+   TOTAL_MENU_WARUNG    bigint not null,
+   TOTAL_PRODUK_JADI    bigint not null,
+   TOTAL_PAKET          bigint,
+   TOTAL_KESELURUHAN    bigint not null,
+   PAJAK_10_            bigint not null,
+   TOTAL_BAYAR          bigint not null,
+   primary key (ID_TRANSAKSI)
+);
+
+alter table BAHAN add constraint FK_MEMBELI foreign key (ID_PEDAGANG)
+      references PEDAGANG (ID_PEDAGANG) on delete restrict on update restrict;
+
+alter table DETAIL_BAHAN add constraint FK_MEMBUTUHKAN foreign key (ID_MENU)
+      references MENU_WARUNG (ID_MENU) on delete restrict on update restrict;
+
+alter table DETAIL_BAHAN add constraint FK_MEMERLUKAN foreign key (ID_BAHAN)
+      references BAHAN (ID_BAHAN) on delete restrict on update restrict;
+
+alter table DETAIL_MENU_WARUNG add constraint FK_TECANTUM foreign key (ID_MENU)
+      references MENU_WARUNG (ID_MENU) on delete restrict on update restrict;
+
+alter table DETAIL_MENU_WARUNG add constraint FK_TERTULIS foreign key (ID_TRANSAKSI)
+      references TRANSAKSI (ID_TRANSAKSI) on delete restrict on update restrict;
+
+alter table DETAIL_PAKET add constraint FK_RELATIONSHIP_13 foreign key (ID_PAKET)
+      references PAKET (ID_PAKET) on delete restrict on update restrict;
+
+alter table DETAIL_PAKET add constraint FK_RELATIONSHIP_14 foreign key (ID_TRANSAKSI)
+      references TRANSAKSI (ID_TRANSAKSI) on delete restrict on update restrict;
+
+alter table DETAIL_PRODUK_JADI add constraint FK_TERCATAT foreign key (ID_TRANSAKSI)
+      references TRANSAKSI (ID_TRANSAKSI) on delete restrict on update restrict;
+
+alter table DETAIL_PRODUK_JADI add constraint FK_TERDAPAT foreign key (ID_PRODUK)
+      references PRODUK_JADI (ID_PRODUK) on delete restrict on update restrict;
+
+alter table JUMLAH_MENU_WARUNG add constraint FK_RELATIONSHIP_17 foreign key (ID_MENU)
+      references MENU_WARUNG (ID_MENU) on delete restrict on update restrict;
+
+alter table JUMLAH_MENU_WARUNG add constraint FK_RELATIONSHIP_18 foreign key (ID_PAKET)
+      references PAKET (ID_PAKET) on delete restrict on update restrict;
+
+alter table JUMLAH_PRODUK_JADI add constraint FK_RELATIONSHIP_15 foreign key (ID_PRODUK)
+      references PRODUK_JADI (ID_PRODUK) on delete restrict on update restrict;
+
+alter table JUMLAH_PRODUK_JADI add constraint FK_RELATIONSHIP_16 foreign key (ID_PAKET)
+      references PAKET (ID_PAKET) on delete restrict on update restrict;
+
+alter table PRODUK_JADI add constraint FK_MEMASOK foreign key (ID_PEMASOK)
+      references PEMASOK (ID_PEMASOK) on delete restrict on update restrict;
+
+alter table TRANSAKSI add constraint FK_MELAKUKAN foreign key (ID_PELANGGAN)
+      references PELANGGAN (ID_PELANGGAN) on delete restrict on update restrict;
+
+alter table TRANSAKSI add constraint FK_MELANGSUNGKAN foreign key (ID_KASIR)
+      references KASIR (ID_KASIR) on delete restrict on update restrict;
+
